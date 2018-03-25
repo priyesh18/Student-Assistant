@@ -8,7 +8,7 @@ var Course = mongoose.model('Course',{
     },
     url: {
         type: String,
-        required: true
+        //required: true
     },
     uploader: {
         type: String,
