@@ -19,7 +19,11 @@ app.post('/courses', (req,res) => {
     })
 });
 app.get('/courses', (req,res) => {
-    res.send('these are the courses');
+    Course.find().then((courses) => {
+        res.send({courses: courses});
+    }, (e) => {
+        res.status(400).send(e);
+    })
 })
 
 app.listen(3000, () => {
