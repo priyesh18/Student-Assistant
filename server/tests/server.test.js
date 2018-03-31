@@ -6,11 +6,18 @@ chai.use(chaiHttp);
 const { app }  = require('../server');
 const { Course } = require('./../models/course');
 
+const courses = [{
+    title: "first test course"
+},
+{
+    title: "second test course"
+}
+]
 beforeEach((done) => {
     Course.remove({}).then(() => {
-        done();
-    })
-})
+        Course.insertMany(courses);
+    }).then(() => done());
+});
 
 describe('Post /courses', () => {
     it('should create a new course', (done) => {
@@ -22,8 +29,8 @@ describe('Post /courses', () => {
             expect(res).to.have.status(200);
             expect(res.body.title).to.equal(title);
             Course.find().then((courses) => {
-                expect(courses.length).to.equal(1);
-                expect(courses[0].title).to.equal(title);
+                expect(courses.length).to.equal(3);
+                expect(courses[2].title).to.equal(title);
                 done();
             }).catch((e) => done(e));
         })
@@ -39,7 +46,24 @@ describe('Post /courses', () => {
         .end((err, res) => {
             if(err) { return done(err) }
             Course.find().then((courses) => {
-                expect(courses.length).to.equal(0);
+                expect(courses.length).to.equal(2);
+                done();
+            }).catch((e) => done(e));
+        })
+    })
+});
+
+describe('GET /courses', () => {
+    it('should get all courses', (done) => {
+        chai.request(app)
+        .get('/courses')
+        .end((err,res) => {
+            if(err) { return done(err) }
+            Course.find().then((courses) => {
+                expect(res).to.have.status(200);
+                expect((res) => {
+                    expect(res.body.courses.length).equals(2);
+                })
                 done();
             }).catch((e) => done(e));
         })
