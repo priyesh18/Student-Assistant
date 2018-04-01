@@ -1,3 +1,4 @@
+var { ObjectID } = require('mongodb');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 var expect = chai.expect;
@@ -7,9 +8,11 @@ const { app }  = require('../server');
 const { Course } = require('./../models/course');
 
 const courses = [{
+    _id: new ObjectID(),
     title: "first test course"
 },
 {
+    _id: new ObjectID(),
     title: "second test course"
 }
 ]
@@ -69,4 +72,16 @@ describe('GET /courses', () => {
         })
     })
 })
+
+// describe('GET /courses/:id', () => {
+//     it('should get the a course doc', (done) => {
+//         chai.request(app)
+//         .get(`/courses/${courses[0]._id.toHexString()}`)
+//         .end((err, res) => {
+//             expect(res).to.have.status(200);
+//             //expect(res.body.courses.title).equals(courses[0].title);
+//             done();
+//         }).catch((e) => done(e));
+//     })
+// })
 

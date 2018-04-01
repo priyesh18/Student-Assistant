@@ -26,6 +26,22 @@ app.get('/courses', (req,res) => {
     }, (e) => {
         res.status(400).send(e);
     })
+});
+
+//GET /courses/9797967554
+app.get('/courses/:id', (req,res) => {
+    var id = req.params.id;
+    //validate id TODO and respond with 404
+    Course.findById(id).then((course) => {
+        if(!course)
+        {
+            return res.status(400).send();
+        }
+        
+        res.send({course:course});
+    }).catch((e) => {
+        res.status(400).send(); //e is not sent to avoid sensitive data
+    })
 })
 
 app.listen(port, () => {
