@@ -1,3 +1,4 @@
+const _ = require('lodash'); //instead of pulling individual properties like in create course route we can use pick like in register route
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -41,6 +42,16 @@ app.get('/courses/:id', (req,res) => {
         res.send({course:course});
     }).catch((e) => {
         res.status(400).send(); //e is not sent to avoid sensitive data
+    })
+})
+
+app.post('/users/register', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']);
+    var user = new User (body);
+    user.save().then((user) => {
+        res.send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
     })
 })
 
