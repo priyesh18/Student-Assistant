@@ -6,11 +6,20 @@ var Course = mongoose.model('Course',{
         trim: true,
         minlength: 1
     },
+    category: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        trim: true
+    },
+
     url: {
         type: String,
         //required: true
     },
-    uploader: {
+    author: {
         type: String,
         default: 'admin'
     }
