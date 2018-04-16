@@ -1,47 +1,40 @@
 const _ = require('lodash'); //instead of pulling individual properties like in create course route we can use pick like in register route
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path'); //it's a core module so no need to install
+const cors = require('cors'); //Cross Origin Resource Sharing, allows to send request from different domain name
+const passport = require('passport');
 
-var { mongoose } = require('./db/mongoose');
+const { config } = require('./config/config');
+var { mongoose } = require('./config/mongoose');
 var { Course } = require('./models/course');
 var { User } = require('./models/user');
 
+const users = require('./routes/users'); //all requests to localhost/users/xyz will go here
+const courses = require('./routes/courses');
+
 var categories = ['java','angular','react','vue','ionic','node.js','python','javascript','typescript','css','html'];
+
 var app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
+//Set static folder. to place all the client side files
+app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.json());
-//Create new course
-app.post('/courses', (req,res) => {
-    var course = new Course({
-        title: req.body.title,
-        url: req.body.url,
-        category: req.body.category
-    });
-    course.save().then((doc) => {
-        res.send({title:"Test Title"});
-    }, (e) => {
-        res.status(400).send(e);
-    })
-});
-//GET all course
-app.get('/courses', (req,res) => {
-    Course.find().then((courses) => {
-        res.send({courses: courses});
-    }, (e) => {
-        res.status(400).send(e);
-    })
-});
-//Get courses by category
-app.get('/courses/category=:name',(req,res) => {
-    var name = req.params.name;
-    Course.find({category: name}).then((doc) => {
-        res.send(doc);
-    }).catch((e) =>{
-        res.status(400).send(e);
-    })
-    //res.send(req.params.id);
+
+//Setup Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
+
+// Routes
+app.get('/', (req, res) => {
+    res.send('Invalid request');
 })
+
+app.use('/users',users);
+app.use('/courses', courses);
 
 //GET /courses/9797967554
 app.get('/courses/:id', (req,res) => {
@@ -63,15 +56,7 @@ app.get('/categories',(req,res) => {
     res.send(categories);
 })
 
-app.post('/users/register', (req, res) => {
-    var body = _.pick(req.body, ['email', 'password', 'username']);
-    var user = new User (body);
-    user.save().then((user) => {
-        res.send(user);
-    }).catch((e) => {
-        res.status(400).send(e);
-    })
-})
+
 
 app.listen(port, () => {
     console.log('Started on port '+port);

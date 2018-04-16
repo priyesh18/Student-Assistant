@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Course = mongoose.model('Course',{
+var CourseSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -25,4 +25,4 @@ var Course = mongoose.model('Course',{
     }
 });
 
-module.exports = { Course };
+module.exports = mongoose.model('Course', CourseSchema);
