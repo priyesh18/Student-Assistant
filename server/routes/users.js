@@ -1,10 +1,10 @@
-const express  = require('express');
-const _        = require('lodash');
+const express = require('express');
+const _ = require('lodash');
 const passport = require('passport-jwt');
-const jwt      = require('jsonwebtoken');
-const config   = require('../config/config')
-const User     = require('../models/user');
-const router   = express.Router();
+const jwt = require('jsonwebtoken');
+const config = require('../config/config')
+const User = require('../models/user');
+const router = express.Router();
 
 router.post('/register', (req, res) => {
     var body = _.pick(req.body, ['username', 'email', 'password']);

@@ -1,20 +1,26 @@
-var { ObjectID } = require('mongodb');
+var {
+    ObjectID
+} = require('mongodb');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 var expect = chai.expect;
 chai.use(chaiHttp);
 
-const { app }  = require('../server');
-const { Course } = require('./../models/course');
+const {
+    app
+} = require('../server');
+const {
+    Course
+} = require('./../models/course');
 
 const courses = [{
-    _id: new ObjectID(),
-    title: "first test course"
-},
-{
-    _id: new ObjectID(),
-    title: "second test course"
-}
+        _id: new ObjectID(),
+        title: "first test course"
+    },
+    {
+        _id: new ObjectID(),
+        title: "second test course"
+    }
 ]
 beforeEach((done) => {
     Course.remove({}).then(() => {
@@ -26,50 +32,56 @@ describe('Post /courses', () => {
     it('should create a new course', (done) => {
         var title = 'Test Title';
         chai.request(app)
-        .post('/courses')
-        .send({title: title})
-        .then((res) => {
-            expect(res).to.have.status(200);
-            expect(res.body.title).to.equal(title);
-            Course.find().then((courses) => {
-                expect(courses.length).to.equal(3);
-                expect(courses[2].title).to.equal(title);
-                done();
-            }).catch((e) => done(e));
-        })
-        .catch((e) => {
-            done(e);
-        })
-        
+            .post('/courses')
+            .send({
+                title: title
+            })
+            .then((res) => {
+                expect(res).to.have.status(200);
+                expect(res.body.title).to.equal(title);
+                Course.find().then((courses) => {
+                    expect(courses.length).to.equal(3);
+                    expect(courses[2].title).to.equal(title);
+                    done();
+                }).catch((e) => done(e));
+            })
+            .catch((e) => {
+                done(e);
+            })
+
     });
     it('should not create new course with invalid body', (done) => {
         chai.request(app)
-        .post('/courses')
-        .send({})
-        .end((err, res) => {
-            if(err) { return done(err) }
-            Course.find().then((courses) => {
-                expect(courses.length).to.equal(2);
-                done();
-            }).catch((e) => done(e));
-        })
+            .post('/courses')
+            .send({})
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                Course.find().then((courses) => {
+                    expect(courses.length).to.equal(2);
+                    done();
+                }).catch((e) => done(e));
+            })
     })
 });
 
 describe('GET /courses', () => {
     it('should get all courses', (done) => {
         chai.request(app)
-        .get('/courses')
-        .end((err,res) => {
-            if(err) { return done(err) }
-            Course.find().then((courses) => {
-                expect(res).to.have.status(200);
-                expect((res) => {
-                    expect(res.body.courses.length).equals(2);
-                })
-                done();
-            }).catch((e) => done(e));
-        })
+            .get('/courses')
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                Course.find().then((courses) => {
+                    expect(res).to.have.status(200);
+                    expect((res) => {
+                        expect(res.body.courses.length).equals(2);
+                    })
+                    done();
+                }).catch((e) => done(e));
+            })
     })
 })
 
@@ -84,4 +96,3 @@ describe('GET /courses', () => {
 //         }).catch((e) => done(e));
 //     })
 // })
-

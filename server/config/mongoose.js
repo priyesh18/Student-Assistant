@@ -10,7 +10,7 @@ mongoose.connection.on('connected', () => {
 })
 
 mongoose.connection.on('error', (err) => {
-    console.log('error'+err);
+    console.log('error' + err);
 })
 
 module.exports = {
