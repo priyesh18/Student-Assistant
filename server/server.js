@@ -6,16 +6,16 @@ const cors = require('cors'); //Cross Origin Resource Sharing, allows to send re
 const passport = require('passport');
 
 const { config } = require('./config/config');
-var { mongoose } = require('./config/mongoose');
-var { Course } = require('./models/course');
-var { User } = require('./models/user');
+const { mongoose } = require('./config/mongoose');
+const { Course } = require('./models/course');
+const { User } = require('./models/user');
+
 
 const users = require('./routes/users'); //all requests to localhost/users/xyz will go here
 const courses = require('./routes/courses');
+const categories = require('./routes/categories')
 
-var categories = ['java', 'angular', 'react', 'vue', 'ionic', 'node.js', 'python', 'javascript', 'typescript', 'css', 'html'];
-
-var app = express();
+const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());
@@ -29,34 +29,10 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 // Routes
-app.get('/', (req, res) => {
-    res.send('Invalid request');
-})
-
+app.get('/', (req, res) => res.send('Invalid request'));
 app.use('/users', users);
 app.use('/courses', courses);
-
-//GET /courses/9797967554
-app.get('/courses/:id', (req, res) => {
-    var id = req.params.id;
-    //validate id TODO and respond with 404
-    Course.findById(id).then((course) => {
-        if (!course) {
-            return res.status(400).send();
-        }
-
-        res.send({
-            course: course
-        });
-    }).catch((e) => {
-        res.status(400).send(); //e is not sent to avoid sensitive data
-    })
-});
-
-app.get('/categories', (req, res) => {
-    res.send(categories);
-})
-
+app.use('/categories', categories);
 
 
 app.listen(port, () => {

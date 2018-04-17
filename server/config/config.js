@@ -3,7 +3,7 @@ module.exports = {
         secret: 'Little secret, big responsibility...'
     },
     database: {
-        local: 'mongodb://localhost:27017/meanauthapp',
+        local: 'mongodb://localhost:27017/CourseAPI',
         mLab: '' // if you want to use mLab for example
     }
 };

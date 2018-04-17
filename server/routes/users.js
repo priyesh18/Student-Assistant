@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
             username: req.body.username
         })
         .then((user) => {
-            console.log(user);
+            //console.log(user);
             if (!user) {
                 res.status(401).send({
                     success: false,
@@ -38,14 +38,16 @@ router.post('/login', (req, res) => {
                 // check if password matches
                 user.comparePassword(req.body.password)
                     .then((isMatch) => {
-                        console.log(isMatch);
+                        //console.log(isMatch);
                         if (isMatch) {
                             // if user is found and password is right create a token
                             var token = jwt.sign(user.toJSON(), config.auth.secret);
                             // return the information including token as JSON
                             res.json({
                                 success: true,
-                                token: 'JWT ' + token
+                                msg: "Login Successfull",
+                                token: 'JWT ' + token,
+                                userid: user._id
                             });
                         } else {
                             res.status(401).send({
@@ -58,12 +60,5 @@ router.post('/login', (req, res) => {
         })
 })
 
-router.post('/authenticate', (req, res, next) => {
-    res.send('authenticate');
-})
-
-router.get('/profile', (req, res, next) => {
-    res.send('profile');
-})
 
 module.exports = router

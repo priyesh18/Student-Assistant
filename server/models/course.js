@@ -4,7 +4,8 @@ var CourseSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 1
+        minlength: 1,
+        unique: true,
     },
     category: {
         type: String,
@@ -17,12 +18,24 @@ var CourseSchema = new mongoose.Schema({
 
     url: {
         type: String,
-        //required: true
+        required: true
     },
-    author: {
-        type: String,
-        default: 'admin'
-    }
+    
+    votes: [
+        {
+           id: {
+               type: mongoose.Schema.Types.ObjectId,
+               ref: 'User',
+               required: true
+           },
+           value: {
+               type: Number,
+               min: -1,
+               max: 1,
+               required: true
+           }
+        }
+    ]
 });
 
 module.exports = mongoose.model('Course', CourseSchema);
