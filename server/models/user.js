@@ -25,16 +25,16 @@ var UserSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    tokens: [{
-        access: {
-            type: String,
-            //required: true
-        },
-        token: {
-            type: String,
-            //required: true
-        }
-    }]
+    // tokens: [{
+    //     access: {
+    //         type: String,
+    //         //required: true
+    //     },
+    //     token: {
+    //         type: String,
+    //         //required: true
+    //     }
+    // }]
 });
 
 UserSchema.pre('save', function (next) {
@@ -67,12 +67,7 @@ UserSchema.methods.comparePassword = function (passw) {
         })
         .catch(e => e);
 
-    // function (err, isMatch) {
-    //     if (err) {
-    //         return cb(err);
-    //     }
-    //     cb(null, isMatch);
-    // });
+    
 };
 
 
