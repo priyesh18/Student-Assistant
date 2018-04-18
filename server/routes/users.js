@@ -10,13 +10,13 @@ router.post('/register', (req, res) => {
     var body = _.pick(req.body, ['username', 'email', 'password']);
     var newUser = new User(body);
     newUser.save().then((user) => {
-            res.send({
+            res.json({
                 success: true,
                 msg: 'Registeration successful, please login now'
             });
         })
         .catch((e) => {
-            res.status(400).send({
+            res.status(400).json({
                 success: false,
                 msg: e.errmsg
             });

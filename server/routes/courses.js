@@ -9,7 +9,7 @@ var Course = require('../models/course');
 router.post('/', passport.authenticate('jwt', { session: false}), (req, res) => {
     var token = getToken(req.headers);
   if (token) {
-      var body = _.pick(req.body, ['title', 'url', 'category']);
+      var body = _.pick(req.body, ['title', 'url', 'category', 'description']);
     var course = new Course(body);
     course.save().then((doc) => {
         res.status(201).send({
