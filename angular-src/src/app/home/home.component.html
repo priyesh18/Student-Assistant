@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="jumbotron">
+    <h1><i class="fab fa-pied-piper-hat"></i>Find the Best Courses Online</h1>
+    Pick your topic from the list below and get started.
+  </div>
+</div>
+
+<!-- <div class="container">
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="Search Course">
+    <div class="input-group-append">
+      <span class="input-group-text" id="basic-addon2">searchicon</span>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="row"  >
+    <div class="col-4" *ngFor="let c of allCategories" >
+        <div class="card">
+            <div class="card-body"  (click)="goToCourse(c)" >
+               <h2> <i [class]='"fab fa-"+c.name'></i> {{ c.name | titlecase }}</h2>
+            </div>
+          </div>
+    </div>
+    
+  </div>
+</div>
+

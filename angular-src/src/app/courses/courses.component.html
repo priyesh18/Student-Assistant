@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="jumbotron">
+      
+          <h1><span class="icon">
+              <i [class]='"fab fa-"+categoryName'></i>
+          </span>{{categoryName | titlecase}} </h1>
+          Learn {{categoryName | titlecase}} 
+           development online from the best {{categoryName | titlecase}} 
+           development tutorials & courses recommended by the programming community.
+      
+      
+    <br>
+    <a routerLink="/courses/new" class="btn btn-primary btn-raised float-right">Submit New Course</a>
+  </div>
+</div>
+<div class="container">
+  <div class="row"  >
+    <div class="col-8">
+      <div class="row" *ngFor="let c of courses">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-10">
+                  <a [href]="c.url">
+                    <div class="card-header">
+                     <h5> {{c.title}}</h5>
+                    </div>
+                    
+                  </a>
+                  <div class="card-text">
+                      {{c.description}}
+                    </div>
+                </div>
+                <div class="col-2"  >
+                    <div (click)="vote(c._id)"><h1><i class="fas fa-angle-double-up"></i></h1></div>
+                    <h1>{{ c.votes.length }}</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          Top Trending Topics
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            <ol>
+              <li>
+                Java
+              </li>
+              <li>JavaScript</li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
