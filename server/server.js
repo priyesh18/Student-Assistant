@@ -29,7 +29,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 // Routes
-app.get('/', (req, res) => res.send('Invalid request'));
+//app.get('/', (req, res) => res.send('Invalid request'));
 app.use('/users', users);
 app.use('/courses', courses);
 app.use('/categories', categories);

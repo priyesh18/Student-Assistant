@@ -4,6 +4,6 @@ module.exports = {
     },
     database: {
         local: 'mongodb://localhost:27017/CourseAPI',
-        mLab: '' // if you want to use mLab for example
+        mLab: 'mongodb://priyesh:qwerty123@ds135413.mlab.com:35413/mydb' // if you want to use mLab for example
     }
 };
