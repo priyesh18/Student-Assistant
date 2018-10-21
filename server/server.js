@@ -16,7 +16,7 @@ const courses = require('./routes/courses');
 const categories = require('./routes/categories')
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 app.use(cors());
 //Set static folder. to place all the client side files
@@ -29,7 +29,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 // Routes
-//app.get('/', (req, res) => res.send('Invalid request'));
+app.get('/', (req, res) => res.send('Invalid request'));
 app.use('/users', users);
 app.use('/courses', courses);
 app.use('/categories', categories);
